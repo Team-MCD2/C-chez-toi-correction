@@ -553,26 +553,36 @@ img:not(.elementor-icon img):not(.custom-logo):hover {
     padding: 12px 20px;
   }
 
-  /* Bouton burger : taille / couleur / visibilite */
+  /* Bouton burger : carre rose arrondi avec icone blanche */
   .menu-toggle.main-header-menu-toggle {
-    background: transparent;
+    background: #EA559D !important;
     border: 0;
-    padding: 8px;
+    border-radius: 12px;
+    padding: 0;
     cursor: pointer;
-    color: #000422;
+    color: #ffffff !important;
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
+    width: 52px;
+    height: 52px;
+    box-shadow: 0 6px 16px -4px rgba(234, 85, 157, 0.55);
+    transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+  }
+  .menu-toggle.main-header-menu-toggle:hover {
+    background: #c93d83 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px -6px rgba(234, 85, 157, 0.7);
   }
 
+  /* L'icone reste blanche meme quand le header est transparent */
   .ast-theme-transparent-header .menu-toggle.main-header-menu-toggle {
-    color: #ffffff;
+    color: #ffffff !important;
   }
 
   .menu-toggle .ast-mobile-svg {
-    width: 28px; height: 28px;
+    width: 26px; height: 26px;
+    fill: currentColor;
   }
 
   /* Icone X cachee par defaut, icone burger visible */
