@@ -530,3 +530,111 @@ img:not(.elementor-icon img):not(.custom-logo):hover {
     font-size: 1.8rem !important;
   }
 }
+
+/* ============================================================
+   8. HEADER RESPONSIF : Burger menu mobile
+   ============================================================ */
+
+/* Par defaut : afficher desktop, cacher mobile */
+#ast-desktop-header { display: block; }
+#ast-mobile-header { display: none; }
+
+/* Breakpoint Astra : 921px */
+@media (max-width: 921px) {
+  #ast-desktop-header { display: none !important; }
+  #ast-mobile-header { display: block !important; }
+
+  /* Bouton burger : taille / couleur */
+  .menu-toggle.main-header-menu-toggle {
+    background: transparent;
+    border: 0;
+    padding: 8px;
+    cursor: pointer;
+    color: #000422;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ast-theme-transparent-header .menu-toggle.main-header-menu-toggle {
+    color: #ffffff;
+  }
+
+  .menu-toggle .ast-mobile-svg {
+    width: 28px; height: 28px;
+  }
+
+  /* Icone X cachee par defaut, icone burger visible */
+  .menu-toggle .ast-close-svg { display: none; }
+  .menu-toggle .ast-menu-svg  { display: inline-block; }
+
+  /* Quand le menu est ouvert : on inverse */
+  .menu-toggle[aria-expanded="true"] .ast-menu-svg  { display: none; }
+  .menu-toggle[aria-expanded="true"] .ast-close-svg { display: inline-block; }
+
+  /* Panneau du menu mobile : slide-in depuis le haut */
+  .ast-mobile-header-content {
+    display: none;
+    background: #ffffff;
+    border-top: 1px solid #f1d6e4;
+    box-shadow: 0 12px 24px -8px rgba(0, 4, 34, 0.15);
+    padding: 16px 20px 24px;
+  }
+
+  /* Quand actif on affiche */
+  #ast-mobile-header.toggle-on .ast-mobile-header-content {
+    display: block;
+    animation: cct-slide-down .25s ease-out;
+  }
+
+  @keyframes cct-slide-down {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Liens du menu mobile */
+  .ast-mobile-header-content .main-header-menu {
+    list-style: none;
+    margin: 0; padding: 0;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+
+  .ast-mobile-header-content .menu-item {
+    border-bottom: 1px solid #f4e4ed;
+  }
+
+  .ast-mobile-header-content .menu-item:last-child {
+    border-bottom: 0;
+  }
+
+  .ast-mobile-header-content .menu-link {
+    display: block;
+    padding: 14px 8px;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: #000422 !important;
+    text-decoration: none;
+    transition: color .2s ease, padding-left .2s ease;
+  }
+
+  .ast-mobile-header-content .menu-link:hover,
+  .ast-mobile-header-content .current-menu-item .menu-link {
+    color: #EA559D !important;
+    padding-left: 14px;
+  }
+
+  /* Cache le bouton "Devis gratuit !" duplique sur mobile dans la barre */
+  #ast-mobile-header .ast-header-button-1 { display: none; }
+
+  /* Logo mobile : un peu plus petit */
+  #ast-mobile-header .custom-logo {
+    max-width: 80px !important;
+    height: auto !important;
+  }
+
+  /* Header transparent : sur mobile on garde lisible avec un fond sombre semi-transparent */
+  .ast-theme-transparent-header #ast-mobile-header .ast-main-header-wrap {
+    background: rgba(0, 4, 34, 0.55);
+    backdrop-filter: blur(6px);
+  }
+}
