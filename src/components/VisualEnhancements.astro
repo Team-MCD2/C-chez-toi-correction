@@ -150,60 +150,68 @@
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
 <script is:inline>
-  // Initialize AOS
-  AOS.init({
-    duration: 800,
-    easing: 'ease-in-out',
-    once: true,
-    offset: 100
-  });
+  // Initialize AOS safely
+  if (typeof AOS !== 'undefined') {
+    AOS.init({
+      duration: 800,
+      easing: 'ease-in-out',
+      once: true,
+      offset: 100
+    });
+  }
 
   // Scroll progress bar functionality
   const scrollProgressBar = document.getElementById('scrollProgressBar');
   
-  window.addEventListener('scroll', () => {
-    const scrollTop = window.pageYOffset;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const scrollPercent = (scrollTop / docHeight) * 100;
-    scrollProgressBar.style.width = scrollPercent + '%';
-  });
+  if (scrollProgressBar) {
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.pageYOffset;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = (scrollTop / docHeight) * 100;
+      scrollProgressBar.style.width = scrollPercent + '%';
+    });
+  }
 
   // Add AOS animation classes to existing elements programmatically
   document.addEventListener('DOMContentLoaded', () => {
-    // Animate sections
-    document.querySelectorAll('section.elementor-section').forEach((section, index) => {
-      section.setAttribute('data-aos', 'fade-up');
-      section.setAttribute('data-aos-delay', (index * 100).toString());
-    });
+    if (typeof AOS !== 'undefined') {
+      // Animate sections
+      document.querySelectorAll('section.elementor-section').forEach((section, index) => {
+        section.setAttribute('data-aos', 'fade-up');
+        section.setAttribute('data-aos-delay', (index * 100).toString());
+      });
 
-    // Animate icon boxes
-    document.querySelectorAll('.elementor-icon-box').forEach((box, index) => {
-      box.setAttribute('data-aos', 'zoom-in');
-      box.setAttribute('data-aos-delay', (index * 150).toString());
-    });
+      // Animate icon boxes
+      document.querySelectorAll('.elementor-icon-box').forEach((box, index) => {
+        box.setAttribute('data-aos', 'zoom-in');
+        box.setAttribute('data-aos-delay', (index * 150).toString());
+      });
 
-    // Animate testimonials
-    document.querySelectorAll('.elementor-testimonial-wrapper').forEach((testimonial, index) => {
-      testimonial.setAttribute('data-aos', 'fade-up');
-      testimonial.setAttribute('data-aos-delay', (index * 100).toString());
-    });
+      // Animate testimonials
+      document.querySelectorAll('.elementor-testimonial-wrapper').forEach((testimonial, index) => {
+        testimonial.setAttribute('data-aos', 'fade-up');
+        testimonial.setAttribute('data-aos-delay', (index * 100).toString());
+      });
 
-    // Animate headings
-    document.querySelectorAll('h1, h2, h3').forEach(heading => {
-      if (!heading.closest('.elementor-icon-box')) {
-        heading.setAttribute('data-aos', 'fade-down');
-      }
-    });
+      // Animate headings
+      document.querySelectorAll('h1, h2, h3').forEach(heading => {
+        if (!heading.closest('.elementor-icon-box')) {
+          heading.setAttribute('data-aos', 'fade-down');
+        }
+      });
 
-    // Animate images
-    document.querySelectorAll('img').forEach(img => {
-      if (!img.closest('.elementor-icon')) {
-        img.setAttribute('data-aos', 'fade-in');
-      }
-    });
+      // Animate images
+      document.querySelectorAll('img').forEach(img => {
+        if (!img.closest('.elementor-icon')) {
+          img.setAttribute('data-aos', 'fade-in');
+        }
+      });
 
-    // Reinitialize AOS after adding attributes
-    setTimeout(() => AOS.refresh(), 100);
+      // Reinitialize AOS after adding attributes
+      setTimeout(() => {
+        if (typeof AOS !== 'undefined') AOS.refresh();
+      }, 100);
+    }
   });
 
   // Scroll to top button functionality
@@ -266,13 +274,20 @@
     counterObserver.observe(el);
   });
 
+
   // ============================================================
   // BURGER MENU MOBILE (toggle ouverture/fermeture)
   // ============================================================
-  const mobileHeader = document.getElementById('ast-mobile-header');
-  const burgerBtn = mobileHeader?.querySelector('.menu-toggle.main-header-menu-toggle');
+  function initBurgerMenu() {
+    const mobileHeader = document.getElementById('ast-mobile-header');
+    const burgerBtn = mobileHeader?.querySelector('.menu-toggle.main-header-menu-toggle');
 
-  if (burgerBtn && mobileHeader) {
+    if (!burgerBtn || !mobileHeader) return;
+
+    // Évite de double-initialiser si la fonction est appelée plusieurs fois
+    if (burgerBtn.dataset.burgerInit) return;
+    burgerBtn.dataset.burgerInit = '1';
+
     burgerBtn.setAttribute('aria-expanded', 'false');
 
     burgerBtn.addEventListener('click', (e) => {
@@ -300,5 +315,12 @@
         burgerBtn.focus();
       }
     });
+  }
+
+  // Lancement immédiat si DOM déjà prêt, sinon attente
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBurgerMenu);
+  } else {
+    initBurgerMenu();
   }
 </script>
