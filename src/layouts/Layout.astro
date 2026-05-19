@@ -1,27 +1,28 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import BaseHead from '../components/BaseHead.astro';
 import LocalBusinessSchema from '../components/seo/LocalBusinessSchema.astro';
 import VisualEnhancements from '../components/VisualEnhancements.astro';
+import ElementorPageStyles from '../components/site/ElementorPageStyles.astro';
+import ElementorRuntime from '../components/site/ElementorRuntime.astro';
+import BaseHead from '../components/BaseHead.astro';
 
 interface Props {
   title?: string;
   htmlLang?: string;
   bodyClass?: string;
   bodyAttrs?: Record<string, string>;
-  headHtml?: string;
-  preHtml?: string;
-  postHtml?: string;
-  /** Si true, n'inclut que BaseHead (CSS Astra + fonts). */
+  /** @deprecated Utiliser elementorPostCss — conserve compatibilite zone */
   useBaseHead?: boolean;
-  /** SEO : meta description (50-160 chars). */
+  /** CSS Elementor de la page (post-390, etc.) */
+  elementorPostCss?: string[];
+  /** ID Elementor pour la config frontend (video, compteurs) */
+  elementorPostId?: number;
+  /** Charge les styles/scripts Elementor (pages migrees) */
+  elementor?: boolean;
   description?: string;
-  /** SEO : Open Graph / Twitter image (URL absolue ou /assets/...). */
   ogImage?: string;
-  /** SEO : type Open Graph (website, article...). */
   ogType?: string;
-  /** SEO : URL canonique (par defaut deduite de Astro.url). */
   canonical?: string;
 }
 
@@ -33,10 +34,10 @@ const {
   htmlLang = 'fr-FR',
   bodyClass = '',
   bodyAttrs = {},
-  headHtml = '',
-  preHtml = '',
-  postHtml = '',
   useBaseHead = false,
+  elementorPostCss = [],
+  elementorPostId = 0,
+  elementor = false,
   description = '',
   ogImage = DEFAULT_OG_IMAGE,
   ogType = 'website',
@@ -44,6 +45,7 @@ const {
 } = Astro.props;
 
 const canonicalHref = canonical ?? Astro.url.pathname;
+const loadElementor = elementor || elementorPostCss.length > 0;
 ---
 <!doctype html>
 <html lang={htmlLang}>
@@ -52,13 +54,11 @@ const canonicalHref = canonical ?? Astro.url.pathname;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
 
-    {/* === SEO de base === */}
     {description && <meta name="description" content={description} />}
     <link rel="canonical" href={canonicalHref} />
     <meta name="theme-color" content="#EA559D" />
     <meta name="format-detection" content="telephone=no" />
 
-    {/* === Open Graph === */}
     <meta property="og:site_name" content={SITE_NAME} />
     <meta property="og:type" content={ogType} />
     <meta property="og:title" content={title} />
@@ -66,40 +66,47 @@ const canonicalHref = canonical ?? Astro.url.pathname;
     <meta property="og:image" content={ogImage} />
     <meta property="og:locale" content="fr_FR" />
 
-    {/* === Twitter Card === */}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     {description && <meta name="twitter:description" content={description} />}
     <meta name="twitter:image" content={ogImage} />
 
-    {/* === Performance === */}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="dns-prefetch" href="//fonts.googleapis.com" />
 
-    {/* === PWA / icons === */}
     <link rel="icon" type="image/png" sizes="150x150" href="/favicon.png" />
     <link rel="apple-touch-icon" sizes="150x150" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    {useBaseHead && <BaseHead />}
-    <Fragment set:html={headHtml} />
+    {loadElementor ? (
+      <ElementorPageStyles pageCss={elementorPostCss} />
+    ) : useBaseHead ? (
+      <BaseHead />
+    ) : null}
 
-    {/* Schema.org LocalBusiness (RoofingContractor) - global */}
     <LocalBusinessSchema />
-
-    {/* Fix CSS charge en dernier pour ecraser le theme sur les bugs visuels */}
     <link rel="stylesheet" href="/assets/custom-fixes.css?v=2026-05-07-3" />
   </head>
   <body class={bodyClass} {...bodyAttrs}>
-    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
-    <Fragment set:html={preHtml} />
-    <Header />
-    <main id="main-content">
-      <slot />
-    </main>
-    <Footer />
-    <Fragment set:html={postHtml} />
+    <a href="#content" class="skip-link screen-reader-text">Aller au contenu</a>
+    {loadElementor ? (
+      <div class="hfeed site" id="page">
+        <Header />
+        <slot />
+        <Footer />
+      </div>
+    ) : (
+      <>
+        <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+        <Header />
+        <main id="main-content">
+          <slot />
+        </main>
+        <Footer />
+      </>
+    )}
+    {loadElementor && <ElementorRuntime elementorPostId={elementorPostId} />}
     <VisualEnhancements />
   </body>
 </html>

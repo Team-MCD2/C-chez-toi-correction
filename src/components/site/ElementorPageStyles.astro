@@ -1,0 +1,14 @@
+---
+import BaseHead from '../BaseHead.astro';
+
+interface Props {
+  /** CSS Elementor specifique a la page (post-390, post-147, etc.) */
+  pageCss?: string[];
+}
+
+const { pageCss = [] } = Astro.props;
+---
+<BaseHead />
+{pageCss.map((href) => (
+  <link rel="stylesheet" href={href} />
+))}
