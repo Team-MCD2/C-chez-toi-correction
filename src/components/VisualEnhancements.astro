@@ -317,10 +317,81 @@
     });
   }
 
+  // Dynamic YouTube background video loader
+  function initBackgroundVideos() {
+    const videoSections = document.querySelectorAll('section[data-settings*="video"]');
+    videoSections.forEach(section => {
+      const settingsStr = section.getAttribute('data-settings');
+      if (!settingsStr) return;
+      try {
+        const settings = JSON.parse(settingsStr);
+        if (settings.background_background === 'video' && settings.background_video_link) {
+          // Extract YouTube ID
+          let videoId = '';
+          const url = settings.background_video_link;
+          const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+          const match = url.match(regExp);
+          if (match && match[2].length === 11) {
+            videoId = match[2];
+          }
+          
+          if (videoId) {
+            const embedContainer = section.querySelector('.elementor-background-video-embed');
+            if (embedContainer) {
+              embedContainer.innerHTML = `
+                <iframe 
+                  src="https://www.youtube.com/embed/${videoId}?controls=0&rel=0&playsinline=1&enablejsapi=1&autoplay=1&mute=1&loop=1&playlist=${videoId}&autoplay=1" 
+                  title="Background Video" 
+                  frameborder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowfullscreen
+                  style="width: 100vw; height: 56.25vw; min-height: 100vh; min-width: 177.77vh; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; object-fit: cover;"
+                ></iframe>
+              `;
+              section.style.position = 'relative';
+              section.style.overflow = 'hidden';
+              const bgContainer = section.querySelector('.elementor-background-video-container');
+              if (bgContainer) {
+                bgContainer.style.position = 'absolute';
+                bgContainer.style.top = '0';
+                bgContainer.style.left = '0';
+                bgContainer.style.width = '100%';
+                bgContainer.style.height = '100%';
+                bgContainer.style.zIndex = '0';
+                bgContainer.style.pointerEvents = 'none';
+              }
+              const containerEl = section.querySelector('.elementor-container');
+              if (containerEl) {
+                containerEl.style.position = 'relative';
+                containerEl.style.zIndex = '2';
+              }
+              const overlayEl = section.querySelector('.elementor-background-overlay');
+              if (overlayEl) {
+                overlayEl.style.position = 'absolute';
+                overlayEl.style.top = '0';
+                overlayEl.style.left = '0';
+                overlayEl.style.width = '100%';
+                overlayEl.style.height = '100%';
+                overlayEl.style.zIndex = '1';
+                overlayEl.style.pointerEvents = 'none';
+              }
+            }
+          }
+        }
+      } catch (e) {
+        console.error("Error parsing background video settings:", e);
+      }
+    });
+  }
+
   // Lancement immédiat si DOM déjà prêt, sinon attente
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initBurgerMenu);
+    document.addEventListener('DOMContentLoaded', () => {
+      initBurgerMenu();
+      initBackgroundVideos();
+    });
   } else {
     initBurgerMenu();
+    initBackgroundVideos();
   }
 </script>

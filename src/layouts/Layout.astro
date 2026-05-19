@@ -4,7 +4,6 @@ import Footer from '../components/Footer.astro';
 import LocalBusinessSchema from '../components/seo/LocalBusinessSchema.astro';
 import VisualEnhancements from '../components/VisualEnhancements.astro';
 import ElementorPageStyles from '../components/site/ElementorPageStyles.astro';
-import ElementorRuntime from '../components/site/ElementorRuntime.astro';
 import BaseHead from '../components/BaseHead.astro';
 
 interface Props {
@@ -27,7 +26,7 @@ interface Props {
 }
 
 const SITE_NAME = 'C CHEZ TOÎT';
-const DEFAULT_OG_IMAGE = '/assets/wp-content/uploads/2025/08/logo-ccheztoit-blanc-scaled-1024x1024.png';
+const DEFAULT_OG_IMAGE = '/assets/images/logo-ccheztoit-blanc-scaled-1024x1024.png';
 
 const {
   title = '',
@@ -106,7 +105,6 @@ const loadElementor = elementor || elementorPostCss.length > 0;
         <Footer />
       </>
     )}
-    {loadElementor && <ElementorRuntime elementorPostId={elementorPostId} />}
     <VisualEnhancements />
   </body>
 </html>
