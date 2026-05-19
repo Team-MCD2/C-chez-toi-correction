@@ -412,7 +412,7 @@ img:not(.elementor-icon img):not(.custom-logo):hover {
   }
 
   /* --- ZoneIntervention grid : 1 colonne --- */
-  .cct-zone-grid {
+  .cct-zones__grid {
     grid-template-columns: 1fr !important;
     gap: 12px !important;
     padding: 0 16px !important;
