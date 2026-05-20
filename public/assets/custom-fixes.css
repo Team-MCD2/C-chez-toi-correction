@@ -671,3 +671,30 @@ img:not(.elementor-icon img):not(.custom-logo):hover {
     border: 0 !important;
   }
 }
+
+/* ============================================================
+   9. FIX HERO VIDEO & TEXT DISPLAY
+   ============================================================ */
+
+/* Masquer les éléments encombrants de la vidéo YouTube (titres, contrôles, bords noirs)
+   en "zoomant" dans l'iframe via un scale et en désactivant les interactions. */
+.elementor-background-video-container {
+  overflow: hidden !important;
+  pointer-events: none !important;
+}
+
+.elementor-background-video-embed iframe {
+  transform: scale(1.35) !important;
+  pointer-events: none !important;
+}
+
+/* Ajustement de la taille du texte H1 sur Desktop pour éviter qu'il ne soit coupé */
+@media (min-width: 1025px) {
+  h1.elementor-heading-title {
+    font-size: 3.5rem !important;
+    line-height: 1.2 !important;
+    max-width: 900px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}

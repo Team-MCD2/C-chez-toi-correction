@@ -6,10 +6,10 @@ interface Props {
 
 const { elementorPostId = 0 } = Astro.props;
 ---
-<script is:inline src="/assets/wp-includes/js/jquery/jquery.min__ver_3_7_1.js"></script>
-<script is:inline src="/assets/wp-content/plugins/elementor/assets/js/webpack.runtime.min__ver_3_33_4.js"></script>
-<script is:inline src="/assets/wp-content/plugins/elementor/assets/js/frontend-modules.min__ver_3_33_4.js"></script>
-<script is:inline src="/assets/wp-includes/js/jquery/ui/core.min__ver_1_13_3.js"></script>
+<script is:inline src="/assets/includes/js/jquery/jquery.min__ver_3_7_1.js"></script>
+<script is:inline src="/assets/content/plugins/elementor/assets/js/webpack.runtime.min__ver_3_33_4.js"></script>
+<script is:inline src="/assets/content/plugins/elementor/assets/js/frontend-modules.min__ver_3_33_4.js"></script>
+<script is:inline src="/assets/includes/js/jquery/ui/core.min__ver_1_13_3.js"></script>
 <script
   is:inline
   define:vars={{ elementorPostId }}
@@ -29,15 +29,15 @@ const { elementorPostId = 0 } = Astro.props;
     version: '3.33.4',
     is_static: true,
     urls: {
-      assets: '/assets/wp-content/plugins/elementor/assets/',
+      assets: '/assets/content/plugins/elementor/assets/',
       ajaxurl: '/',
-      uploadUrl: '/assets/wp-content/uploads',
+      uploadUrl: '/assets/content/uploads',
     },
     settings: { page: [] },
     kit: { active_breakpoints: ['viewport_mobile', 'viewport_tablet'] },
     post: { id: elementorPostId, title: '', excerpt: '', featuredImage: false },
   };
 </script>
-<script is:inline src="/assets/wp-content/plugins/elementor/assets/js/frontend.min__ver_3_33_4.js"></script>
-<script is:inline src="/assets/wp-content/plugins/elementor/assets/lib/jquery-numerator/jquery-numerator.min__ver_0_2_1.js"></script>
-<script is:inline src="/assets/wp-content/themes/astra/assets/js/minified/frontend.min__ver_4_11_11.js"></script>
+<script is:inline src="/assets/content/plugins/elementor/assets/js/frontend.min__ver_3_33_4.js"></script>
+<script is:inline src="/assets/content/plugins/elementor/assets/lib/jquery-numerator/jquery-numerator.min__ver_0_2_1.js"></script>
+<script is:inline src="/assets/content/themes/astra/assets/js/minified/frontend.min__ver_4_11_11.js"></script>
