@@ -88,7 +88,27 @@
 <div class="elementor-element elementor-element-c79b494 e-con-full e-flex e-con e-child" data-element_type="container" data-id="c79b494" data-settings='{"background_background":"classic"}'>
 <div class="elementor-element elementor-element-60b3029 elementor-widget elementor-widget-html" data-element_type="widget" data-id="60b3029" data-widget_type="html.default">
 <div class="elementor-widget-container">
-<script is:inline src="/assets/jsform/253195243998370"></script>
+<form data-api-form="chez_toi" style="display: flex; flex-direction: column; gap: 1rem; width: 100%; max-width: 600px; margin: 0 auto;">
+    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+        <label for="nom" style="font-weight: 600;">Nom complet</label>
+        <input type="text" id="nom" name="nom" required style="padding: 0.75rem; border: 1px solid #ccc; border-radius: 4px;" />
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+        <label for="email" style="font-weight: 600;">Email</label>
+        <input type="email" id="email" name="email" required style="padding: 0.75rem; border: 1px solid #ccc; border-radius: 4px;" />
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+        <label for="telephone" style="font-weight: 600;">Téléphone</label>
+        <input type="tel" id="telephone" name="telephone" required style="padding: 0.75rem; border: 1px solid #ccc; border-radius: 4px;" />
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+        <label for="message" style="font-weight: 600;">Message</label>
+        <textarea id="message" name="message" rows="5" required style="padding: 0.75rem; border: 1px solid #ccc; border-radius: 4px; resize: vertical;"></textarea>
+    </div>
+    <button type="submit" style="padding: 1rem; background-color: #EA559D; color: white; border: none; border-radius: 4px; font-weight: 600; cursor: pointer; transition: background-color 0.3s;">
+        Envoyer le message
+    </button>
+</form>
 </div>
 <div class="elementor-element elementor-element-99163cc elementor-align-right elementor-widget__width-auto elementor-absolute elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list" data-element_type="widget" data-id="99163cc" data-settings='{"_position":"absolute"}' data-widget_type="icon-list.default">
 <div class="elementor-widget-container">
